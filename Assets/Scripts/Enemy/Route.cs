@@ -1,21 +1,23 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Route : MonoBehaviour
 {
-    private Queue<Transform> _waypoints = new Queue<Transform>();
+    [SerializeField] private List<Transform> _waypoints;
+    
+    private Queue<Transform> _sortedWaypoints = new Queue<Transform>();
 
-    public void Initialize(List<Transform> waypoints)
+    public void Initialize()
     {
-        RebuildLoopedQueue(waypoints);
+        RebuildLoopedQueue(_waypoints);
     }
 
     public Transform GetWaypoint()
     {
-        Transform waypoint = _waypoints.Peek();
+        Transform waypoint = _sortedWaypoints.Peek();
         
-        _waypoints.Enqueue(_waypoints.Dequeue());
+        _sortedWaypoints.Enqueue(_sortedWaypoints.Dequeue());
         
         return waypoint;
     }
@@ -41,7 +43,7 @@ public class Route : MonoBehaviour
         
         for (int i = 0; i < originalWaypoints.Count; i++)
         {
-            _waypoints.Enqueue(originalWaypoints[(nearestIndex + i) % originalWaypoints.Count]);
+            _sortedWaypoints.Enqueue(originalWaypoints[(nearestIndex + i) % originalWaypoints.Count]);
         }
     }
 }

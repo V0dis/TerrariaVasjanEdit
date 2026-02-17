@@ -1,15 +1,21 @@
-﻿using UnityEngine;
+using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class Coin : MonoBehaviour
 {
-    private Collider2D _collider;
+    [SerializeField] private int _value = 1;
     
-    public int CoinValue { get; private set; } = 1;
-
-    private void Awake()
+    private bool _isCollected = false;
+    public event Action<Coin> Collected;
+    public int Value => _value;
+    
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        _collider = GetComponent<Collider2D>(); 
-        _collider.isTrigger = true;
+        if (_isCollected || other.GetComponent<Player>() == null) 
+            return;
+        
+        _isCollected = true;
+        Collected?.Invoke(this);
     }
 }
