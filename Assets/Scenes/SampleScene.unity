@@ -156,7 +156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bbda4b57234273a0afb096a466dafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Route
-  _waypoints: []
+  _waypoints:
+  - {fileID: 1737910192}
+  - {fileID: 1727482239}
 --- !u!114 &116819077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1837,6 +1839,7 @@ GameObject:
   - component: {fileID: 817411604}
   - component: {fileID: 817411603}
   - component: {fileID: 817411602}
+  - component: {fileID: 817411606}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2030,6 +2033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   _userInput: {fileID: 817411591}
   _mover: {fileID: 817411598}
+  _jumper: {fileID: 817411606}
   _coinsCollector: {fileID: 817411601}
   _wallet: {fileID: 817411604}
   _rotator: {fileID: 817411603}
@@ -2061,7 +2065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de51d6cac6594de418fa0e798a13c0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinsCollector
-  _wallet: {fileID: 817411604}
 --- !u!114 &817411602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2118,6 +2121,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
   _animator: {fileID: 817411590}
+--- !u!114 &817411606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817411584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345b1ce11050e69488898635e8026ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Jumper
 --- !u!1 &931750651
 GameObject:
   m_ObjectHideFlags: 0
@@ -2452,7 +2467,7 @@ GameObject:
   - component: {fileID: 1642781593}
   - component: {fileID: 1642781594}
   m_Layer: 0
-  m_Name: Coins
+  m_Name: CoinsSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
