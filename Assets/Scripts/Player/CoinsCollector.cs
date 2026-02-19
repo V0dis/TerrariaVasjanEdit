@@ -1,23 +1,17 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class CoinsCollector : MonoBehaviour
 {
-    private int _coins;
-    
-    public int Coins => _coins;
+    public event Action<int> OnCoinPickedUp;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent(out Coin coin))
         {
-            coin.Collected += OnCoinCollected;
+            OnCoinPickedUp?.Invoke(coin.Value);
+            coin.Take();
         }
-    }
-    
-    private void OnCoinCollected(Coin coin)
-    {
-        coin.Collected -= OnCoinCollected;
-        _coins += coin.Value;
     }
 }

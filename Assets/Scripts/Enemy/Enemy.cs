@@ -4,15 +4,15 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private Mover _mover;
     [SerializeField] private Route _route;
-    [SerializeField] private DirectionChanger _directionChanger;
-    [SerializeField] private EnemyAnimationController _animationController;
-    
+    [SerializeField] private Rotator _rotator;
+    [SerializeField] private EnemyAnimator _animator;
+
+    [Header("Settings")]
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _rangeToChange = 0.5f;
 
     private Transform _currentWaypoint;
     private Vector2 _moveDirection;
-    private Vector2 _velocity;
     private float _sqrRange;
     private bool _isMoving;
 
@@ -33,30 +33,28 @@ public class Enemy : MonoBehaviour
     {
         if (_currentWaypoint == null)
         {
-            if (_isMoving)
-            {
-                _isMoving = false;
-                _animationController.UpdateAnimation(_isMoving);
-            }
-            return;
+            StopMoving();
         }
-
-        if (IsWaypointReached)
+        else if (IsWaypointReached)
+        {
             SwitchToNextWaypoint();
-
-        MoveToWaypoint();
+        }
+        else
+        {
+            MoveToWaypoint();
+        }
     }
 
-    private void SwitchToNextWaypoint() => 
+    private void SwitchToNextWaypoint() =>
         _currentWaypoint = _route.GetWaypoint();
-    
-    private void UpdateAnimation(Vector2 direction)
-    {
-        if (_directionChanger == null)
-            return;
 
-        _directionChanger.SetDirection(direction.x);
-        _animationController.UpdateAnimation(_isMoving);
+    private void StopMoving()
+    {
+        if (_isMoving)
+        {
+            _isMoving = false;
+            _animator.SetIdle();
+        }
     }
 
     private void MoveToWaypoint()
@@ -64,9 +62,8 @@ public class Enemy : MonoBehaviour
         _moveDirection = (_currentWaypoint.position - transform.position).normalized;
         _isMoving = true;
 
-        _velocity = _moveDirection * _speed;
-        _mover.Move(_velocity);
-
-        UpdateAnimation(_moveDirection);
+        _mover.Move(_moveDirection * _speed);
+        _rotator.SetDirection(_moveDirection.x);
+        _animator.SetMoving();
     }
 }

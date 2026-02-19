@@ -134,9 +134,9 @@ GameObject:
   - component: {fileID: 116819078}
   - component: {fileID: 116819077}
   - component: {fileID: 116819074}
-  - component: {fileID: 116819084}
-  - component: {fileID: 116819087}
   - component: {fileID: 116819086}
+  - component: {fileID: 116819088}
+  - component: {fileID: 116819087}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -171,8 +171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   _mover: {fileID: 116819086}
   _route: {fileID: 116819074}
-  _directionChanger: {fileID: 116819084}
-  _speed: 0
+  _rotator: {fileID: 116819088}
+  _animator: {fileID: 116819087}
+  _speed: 4
   _rangeToChange: 0.5
 --- !u!95 &116819078
 Animator:
@@ -334,18 +335,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &116819084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116819073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 562697ece4c04d646bf0d0748282d308, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DirectionChanger
 --- !u!114 &116819086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,13 +347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0599cacfa05614b99c58bd159cf8a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mover
-  _moveSpeed: 10
-  _jumpForce: 15
-  _groundCheckRadius: 0.1
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _groundCheck: {fileID: 116819082}
 --- !u!114 &116819087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,10 +356,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 116819073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8bea30d44dba294ba5e954f9f0bc857, type: 3}
+  m_Script: {fileID: 11500000, guid: 49f640ccc065c5d4bbe3114bfb46c5e2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimator
   _animator: {fileID: 116819078}
+--- !u!114 &116819088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116819073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ae8682664ffeb44bd7058eef7747d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotator
 --- !u!1 &143379598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1714,7 +1708,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 577497842}
-  - component: {fileID: 577497841}
   m_Layer: 0
   m_Name: WaypointsHandler (1)
   m_TagString: Untagged
@@ -1722,18 +1715,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &577497841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 577497840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8821ae03668c408eb48773384f1b19a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaypointsHandler
 --- !u!4 &577497842
 Transform:
   m_ObjectHideFlags: 0
@@ -1850,10 +1831,12 @@ GameObject:
   - component: {fileID: 817411590}
   - component: {fileID: 817411594}
   - component: {fileID: 817411591}
-  - component: {fileID: 817411599}
   - component: {fileID: 817411598}
-  - component: {fileID: 817411600}
   - component: {fileID: 817411601}
+  - component: {fileID: 817411605}
+  - component: {fileID: 817411604}
+  - component: {fileID: 817411603}
+  - component: {fileID: 817411602}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2048,8 +2031,12 @@ MonoBehaviour:
   _userInput: {fileID: 817411591}
   _mover: {fileID: 817411598}
   _coinsCollector: {fileID: 817411601}
-  _directionChanger: {fileID: 817411599}
-  _animationController: {fileID: 817411600}
+  _wallet: {fileID: 817411604}
+  _rotator: {fileID: 817411603}
+  _animator: {fileID: 817411605}
+  _groundChecker: {fileID: 817411602}
+  _speed: 10
+  _jumpForce: 15
 --- !u!114 &817411598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2062,38 +2049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0599cacfa05614b99c58bd159cf8a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mover
-  _moveSpeed: 10
-  _jumpForce: 15
-  _groundCheckRadius: 0.1
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _groundCheck: {fileID: 817411587}
---- !u!114 &817411599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 817411584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 562697ece4c04d646bf0d0748282d308, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DirectionChanger
---- !u!114 &817411600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 817411584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db3d4eaf73e8b3a41ad83a0c52d216c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationController
-  _animator: {fileID: 817411590}
 --- !u!114 &817411601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2106,6 +2061,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de51d6cac6594de418fa0e798a13c0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinsCollector
+  _wallet: {fileID: 817411604}
+--- !u!114 &817411602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817411584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81254ab022ebd6c49ae4ce9ff94f9800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundChecker
+  _checkRadius: 0.1
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _checkPoint: {fileID: 817411587}
+  _checkInterval: 0.1
+--- !u!114 &817411603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817411584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ae8682664ffeb44bd7058eef7747d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotator
+--- !u!114 &817411604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817411584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 694ee680b12d8fc4eb43c26b8935c9a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Wallet
+  _coins: 0
+--- !u!114 &817411605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817411584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b72e7f615ce0c4993b27c21932eab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+  _animator: {fileID: 817411590}
 --- !u!1 &931750651
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,10 +2489,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1642781592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d2ce27f30164224b9131cada531a1f7, type: 3}
+  m_Script: {fileID: 11500000, guid: f2ae082e56635734b955ff5995337d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinSpawner
-  _coinPrefab: {fileID: 7210686459853975905, guid: 9cccf1f674075bb43b0745907f5534d9, type: 3}
+  _coinPrefab: {fileID: 3419192667837244107, guid: 9cccf1f674075bb43b0745907f5534d9, type: 3}
   _spawnPoints:
   - {fileID: 1579165707}
   - {fileID: 1229674428}
@@ -5059,9 +5071,9 @@ GameObject:
   - component: {fileID: 2004132851}
   - component: {fileID: 2004132850}
   - component: {fileID: 2004132848}
-  - component: {fileID: 2004132858}
-  - component: {fileID: 2004132860}
   - component: {fileID: 2004132859}
+  - component: {fileID: 2004132861}
+  - component: {fileID: 2004132860}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -5098,8 +5110,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   _mover: {fileID: 2004132859}
   _route: {fileID: 2004132848}
-  _directionChanger: {fileID: 2004132858}
-  _speed: 0
+  _rotator: {fileID: 2004132861}
+  _animator: {fileID: 2004132860}
+  _speed: 4
   _rangeToChange: 0.5
 --- !u!95 &2004132851
 Animator:
@@ -5261,18 +5274,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2004132858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2004132847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 562697ece4c04d646bf0d0748282d308, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DirectionChanger
 --- !u!114 &2004132859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5285,13 +5286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0599cacfa05614b99c58bd159cf8a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mover
-  _moveSpeed: 10
-  _jumpForce: 15
-  _groundCheckRadius: 0.1
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _groundCheck: {fileID: 2004132855}
 --- !u!114 &2004132860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5301,10 +5295,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2004132847}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8bea30d44dba294ba5e954f9f0bc857, type: 3}
+  m_Script: {fileID: 11500000, guid: 49f640ccc065c5d4bbe3114bfb46c5e2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimator
   _animator: {fileID: 2004132851}
+--- !u!114 &2004132861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004132847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ae8682664ffeb44bd7058eef7747d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotator
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
