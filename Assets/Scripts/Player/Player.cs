@@ -17,45 +17,39 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 10f;
     [SerializeField] private float _jumpForce = 15f;
 
-    private float _horizontalInput;
-
-    private void Start()
+    private void OnEnable()
     {
-        _groundChecker.Initialize();
+        _coinsCollector.CoinPickedUp += _wallet.AddCoins;
     }
 
     private void Update()
     {
-        _horizontalInput = _userInput.GetMoveInput().x;
-        Move(_horizontalInput);
+        Move(_userInput.GetMoveInput().x);
+        TryJump();
         RefreshAnimation();
-    }
-
-    private void OnEnable()
-    {
-        _coinsCollector.OnCoinPickedUp += _wallet.AddCoins;
     }
 
     private void OnDisable()
     {
-        _coinsCollector.OnCoinPickedUp -= _wallet.AddCoins;
+        _coinsCollector.CoinPickedUp -= _wallet.AddCoins;
     }
 
     private void Move(float horizontalInput)
     {
         _mover.Move(new Vector2(horizontalInput * _speed, 0));
         _rotator.SetDirection(horizontalInput);
+    }
 
-        if (_userInput.GetJumpInput())
-            _jumper.Jump(_jumpForce, _groundChecker.IsGrounded);
+    private void TryJump()
+    {
+        if (_userInput.GetJumpInput() && _groundChecker.IsGrounded)
+            _jumper.Jump(_jumpForce);
     }
 
     private void RefreshAnimation()
     {
-        _animator.SetAnimationParameters(
-            Mathf.Abs(_mover.Velocity.x),
-            _groundChecker.IsGrounded,
-            _mover.Velocity.y
-        );
+        _animator.SetSpeed(Mathf.Abs(_mover.Velocity.x));
+        _animator.SetGrounded(_groundChecker.IsGrounded);
+        _animator.SetAirSpeedY(_mover.Velocity.y);
     }
 }

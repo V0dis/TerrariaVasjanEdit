@@ -10,9 +10,8 @@ public class Jumper : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void Jump(float jumpForce, bool isGrounded)
+    public void Jump(float jumpForce)
     {
-        if (_rigidbody && isGrounded)
-            _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, jumpForce);
+        _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, jumpForce);
     }
 }

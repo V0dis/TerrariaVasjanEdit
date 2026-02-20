@@ -8,24 +8,25 @@ public class GroundChecker : MonoBehaviour
     [SerializeField] private Transform _checkPoint;
     [SerializeField] private float _checkInterval = 0.1f;
 
-    private bool _isGrounded;
+    private WaitForSeconds _waitInterval;
 
-    public bool IsGrounded => _isGrounded;
+    public bool IsGrounded { get; private set; }
 
-    public void Initialize()
+    public void Awake()
     {
         if (_checkPoint == null)
             _checkPoint = transform;
-
-        StartCoroutine(CheckGround(_checkInterval));
+        
+        _waitInterval = new WaitForSeconds(_checkInterval);
+        StartCoroutine(CheckGround());
     }
 
-    private IEnumerator CheckGround(float wait)
+    private IEnumerator CheckGround()
     {
         while (enabled)
         {
             Check();
-            yield return new WaitForSeconds(wait);
+            yield return _waitInterval;
         }
     }
 
@@ -34,6 +35,6 @@ public class GroundChecker : MonoBehaviour
         Debug.DrawRay(_checkPoint.position, Vector2.down * _checkRadius, Color.red);
 
         Collider2D hit = Physics2D.OverlapCircle(_checkPoint.position, _checkRadius, _groundLayer);
-        _isGrounded = hit != null;
+        IsGrounded = hit != null;
     }
 }

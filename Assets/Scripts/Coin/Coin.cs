@@ -6,12 +6,12 @@ public class Coin : MonoBehaviour
 {
     [SerializeField] private int _value = 1;
 
-    public event Action<Coin> IsTaken;
+    public event Action<Coin> Taken;
 
     public int Value => _value;
 
     public void Take()
     {
-        IsTaken?.Invoke(this);
+        Taken?.Invoke(this);
     }
 }

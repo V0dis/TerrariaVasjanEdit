@@ -19,13 +19,13 @@ public class CoinSpawner : MonoBehaviour
         foreach (var point in _spawnPoints)
         {
             var coin = Instantiate(_coinPrefab, point.position, Quaternion.identity);
-            coin.IsTaken += HandleCollected;
+            coin.Taken += HandleCollected;
         }
     }
 
     private void HandleCollected(Coin coin)
     {
-        coin.IsTaken -= HandleCollected;
+        coin.Taken -= HandleCollected;
         
         if (coin != null)
             Destroy(coin.gameObject);

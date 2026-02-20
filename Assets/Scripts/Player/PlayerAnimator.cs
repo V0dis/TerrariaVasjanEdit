@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
     private const float MinSpeedForRun = 0.1f;
@@ -7,7 +8,6 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int RunHash = Animator.StringToHash("Run");
     private static readonly int GroundedHash = Animator.StringToHash("Grounded");
     private static readonly int AirSpeedYHash = Animator.StringToHash("AirSpeedY");
-    private static readonly int JumpHash = Animator.StringToHash("Jump");
 
     [SerializeField] private Animator _animator;
 
@@ -19,18 +19,20 @@ public class PlayerAnimator : MonoBehaviour
             _animator = GetComponent<Animator>();
     }
 
-    public void SetAnimationParameters(float speed, bool isGrounded, float velocityY)
+    public void SetSpeed(float speed)
     {
-        if (_animator == null)
-            return;
-
         _animator.SetBool(RunHash, Mathf.Abs(speed) > MinSpeedForRun);
-        _animator.SetBool(GroundedHash, isGrounded);
-        _animator.SetFloat(AirSpeedYHash, velocityY);
+    }
 
-        if (_wasGrounded && !isGrounded && velocityY > 0)
-            _animator.SetTrigger(JumpHash);
+    public void SetGrounded(bool isGrounded)
+    {
+        _animator.SetBool(GroundedHash, isGrounded);
 
         _wasGrounded = isGrounded;
+    }
+
+    public void SetAirSpeedY(float velocityY)
+    {
+        _animator.SetFloat(AirSpeedYHash, velocityY);
     }
 }

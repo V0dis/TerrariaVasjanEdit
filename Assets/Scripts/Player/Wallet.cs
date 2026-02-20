@@ -6,5 +6,6 @@ public class Wallet : MonoBehaviour
 
     public int Coins => _coins;
 
-    public void AddCoins(int amount) => _coins += amount;
+    public void AddCoins(int amount)
+        => _coins += amount;
 }
